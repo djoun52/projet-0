@@ -15,7 +15,7 @@ function App() {
   return (
 
     <div className="App">
-      <UserContext.Provider value={{ email, setEmail }}>
+      <UserContext.Provider value={{email, setEmail }}>
 
         <Navbar />
         <div className="subnav">
@@ -26,7 +26,7 @@ function App() {
             <Route path="*" element={<Error404 />} />
           </Routes>
           <div>
-            {!!email && (<div> Logged in as {{ email }}</div>)}
+            {email && (<div> Logged in as {email}</div>)}
 
             {!email && (<div> Not logged in </div>)}
           </div>

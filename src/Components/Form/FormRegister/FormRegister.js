@@ -2,6 +2,7 @@ import React, { useState, useContext } from 'react';
 import "./FormRegister.css";
 import axios from 'axios';
 import UserContext from '../../../UserContext';
+import { useNavigate } from 'react-router-dom'
 
 export default function FormRegister() {
 
@@ -11,7 +12,7 @@ export default function FormRegister() {
     })
 
     const user = useContext(UserContext)
-
+    const navigate = useNavigate()
 
     const handleForm = (e) => {
         e.preventDefault();
@@ -20,6 +21,8 @@ export default function FormRegister() {
         .then(response => {
             user.setEmail(response.data.email)
         });
+
+        navigate("/")
 
     }
     const changeInput = (e) => {

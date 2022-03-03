@@ -1,6 +1,6 @@
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
-
+import './Error404.css'
 export default function Error404() {
 
     const navigate = useNavigate()
@@ -10,9 +10,8 @@ export default function Error404() {
     return (
         <>
             <h1>error 404 Page not found</h1>
-            <div className="d-flex justify-content-center">
-                <button className="btn btn-primary text-center" 
-                    onClick={goHome}> Retourner à l'accueil</button>
+            <div className="">
+                <button className="btn404"  onClick={goHome}> Retourner à l'accueil</button>
             </div>
         </>
     )
