@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import "./FormRegister.css";
+import axios from 'axios';
 
 export default function FormRegister() {
 
@@ -7,9 +8,15 @@ export default function FormRegister() {
         email: '',
         password: ''
     })
+
+    const context = useContext(UserContext)
+
+
     const handleForm = (e) => {
         e.preventDefault();
-        console.log(log);
+        // console.log(log);
+        axios.post('http://localhost:4000/register', log, {withCredentials: true})
+        .then(response => {});
 
     }
     const changeInput = (e) => {
