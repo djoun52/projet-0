@@ -21,7 +21,10 @@ export default function FormRegister() {
         .then(response => {
             user.setEmail(response.data.email)
         });
-
+        setLog({
+            email: '',
+            password: ''
+        })
         navigate("/")
 
     }

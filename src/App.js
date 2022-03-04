@@ -1,5 +1,5 @@
 import './App.css';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Navbar from './Components/Navbar/Navbar';
 import { Routes, Route } from 'react-router-dom';
 import Home from './Containers/Home/Home';
@@ -7,15 +7,24 @@ import Login from './Containers/Login/Login';
 import Register from './Containers/Register/Register';
 import UserContext from './UserContext';
 import Error404 from "./Components/Error404/Error404"
+import axios from 'axios';
 
 function App() {
 
   const [email, setEmail] = useState('');
 
+  useEffect(() => {
+    axios.get('http://localhost:4000/user', { withCredentials: true })
+      .then(response => {
+        setEmail(response.data.email);
+      });
+  }, [])
+
+
   return (
 
     <div className="App">
-      <UserContext.Provider value={{email, setEmail }}>
+      <UserContext.Provider value={{ email, setEmail }}>
 
         <Navbar />
         <div className="subnav">
