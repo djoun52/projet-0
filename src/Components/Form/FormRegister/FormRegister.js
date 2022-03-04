@@ -10,22 +10,26 @@ export default function FormRegister() {
         email: '',
         password: ''
     })
-
+    const [errorRegister, setErrorRegister] = useState(false)
     const user = useContext(UserContext)
     const navigate = useNavigate()
 
     const handleForm = (e) => {
         e.preventDefault();
         // console.log(log);
-        axios.post('http://localhost:4000/register', log, {withCredentials: true})
-        .then(response => {
-            user.setEmail(response.data.email)
-        });
-        setLog({
-            email: '',
-            password: ''
-        })
-        navigate("/")
+        axios.post('http://localhost:4000/register', log, { withCredentials: true })
+            .then(response => {
+                user.setEmail(response.data.email)
+                setLog({
+                    email: '',
+                    password: ''
+                })
+                setErrorRegister(false)
+                navigate("/")
+            })
+            .catch(() => {
+                setErrorRegister(true)
+            });
 
     }
     const changeInput = (e) => {
@@ -42,6 +46,7 @@ export default function FormRegister() {
     }
 
     return (
+        <>
         <form className="container-form" onSubmit={handleForm}>
             <label htmlFor="email">email</label>
             <input
@@ -65,5 +70,9 @@ export default function FormRegister() {
 
             <button type="submit">connexion</button>
         </form>
+            {errorRegister && (
+                <h2>Error inscription</h2>
+            )}
+        </>
     )
 }

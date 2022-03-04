@@ -38,19 +38,28 @@ app.get('/user', (req, res) => {
 
 app.post('/register', (req, res) => {
     const { email, password } = req.body;
-
     const hashedPassword = bcrypt.hashSync(password, 10);
     const user = new User({ email: email, password: hashedPassword });
-    user.save().then(userInfo => {
-        jwt.sign({ id: userInfo._id, email: userInfo.email }, secret, (err, token) => {
-            if (err) {
-                console.log(err);
-                res.sendStatus(500);
-            } else {
-                res.cookie('token', token).json({ id: userInfo._id, email: userInfo.email });
-            }
-        })
+    User.findOne({ email }).then(data => {
+        
+        if (data == null) {
+            user.save().then(userInfo => {
+                jwt.sign({ id: userInfo._id, email: userInfo.email }, secret, (err, token) => {
+                    if (err) {
+                        console.log(err);
+                        res.sendStatus(500);
+                    } else {
+                        res.cookie('token', token).json({ id: userInfo._id, email: userInfo.email });
+                    }
+                })
+            })
+            
+        } else {
+            res.sendStatus(401);
+        }
+
     })
+
 })
 
 app.post('/login', (req, res) => {
