@@ -1,8 +1,8 @@
 import React, { useState, useContext } from 'react';
 import "./FormRegister.css";
 import axios from 'axios';
-import UserContext from '../../../UserContext';
 import { useNavigate } from 'react-router-dom'
+import { useDispatch } from 'react-redux';
 
 export default function FormRegister() {
 
@@ -11,7 +11,8 @@ export default function FormRegister() {
         password: ''
     })
     const [errorRegister, setErrorRegister] = useState(false)
-    const user = useContext(UserContext)
+
+    const dispatch = useDispatch();
     const navigate = useNavigate()
 
     const handleForm = (e) => {
@@ -19,7 +20,11 @@ export default function FormRegister() {
         // console.log(log);
         axios.post('http://localhost:4000/register', log, { withCredentials: true })
             .then(response => {
-                user.setEmail(response.data.email)
+
+                dispatch({
+                    type: "ADDUSER",
+                    payload: response.data.email,
+                })
                 setLog({
                     email: '',
                     password: ''

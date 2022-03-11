@@ -5,27 +5,35 @@ import { Routes, Route } from 'react-router-dom';
 import Home from './Containers/Home/Home';
 import Login from './Containers/Login/Login';
 import Register from './Containers/Register/Register';
-import UserContext from './UserContext';
+// import UserContext from './UserContext';
 import Error404 from "./Components/Error404/Error404"
 import axios from 'axios';
+import { useSelector, useDispatch } from 'react-redux';
 
 function App() {
 
-  const [email, setEmail] = useState('');
+
+  const { email } = useSelector(state => ({
+    ...state.userReducer,
+  }))
+  const dispatch = useDispatch();
 
   useEffect(() => {
     axios.get('http://localhost:4000/user', { withCredentials: true })
       .then(response => {
-        setEmail(response.data.email);
+        dispatch({
+          type: "ADDUSER",
+          payload: response.data.email,
+        })
       });
+
+    
   }, [])
 
-
+console.log(email)
   return (
 
     <div className="App">
-      <UserContext.Provider value={{ email, setEmail }}>
-
         <Navbar />
         <div className="subnav">
           <Routes>
@@ -40,10 +48,6 @@ function App() {
             {!email && (<div> Not logged in </div>)}
           </div>
         </div>
-
-
-      </UserContext.Provider>
-
     </div>
   );
 }

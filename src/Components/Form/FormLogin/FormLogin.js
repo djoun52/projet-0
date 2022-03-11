@@ -1,31 +1,33 @@
 import React, { useState, useContext } from 'react';
 import "./FormLogin.css"
 import axios from 'axios';
-import UserContext from '../../../UserContext';
 import { useNavigate } from 'react-router-dom'
-
+import { useDispatch } from 'react-redux';
 
 export default function FormLogin() {
 
-
-
+    
+    
     const [log, setLog] = useState({
         email: '',
         password: ''
     })
+
     const [longinErro, setLonginErro] = useState(false)
-
-    const user = useContext(UserContext)
+    const dispatch = useDispatch();
+    
     const navigate = useNavigate()
-
-
 
     const handleForm = (e) => {
         e.preventDefault();
-        // console.log(log);
+        
         axios.post('http://localhost:4000/login', log, { withCredentials: true })
             .then(response => {
-                user.setEmail(response.data.email)
+                
+                dispatch({
+                    type: "ADDUSER",
+                    payload: response.data.email,
+                })
                 setLog({
                     email: '',
                     password: ''
