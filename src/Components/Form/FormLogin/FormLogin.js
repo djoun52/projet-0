@@ -1,5 +1,6 @@
 import React, { useState, useContext } from 'react';
 import "./FormLogin.css"
+import { ThemeContext } from '../../../Context/ThemeContext';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom'
 import { useDispatch } from 'react-redux';
@@ -17,6 +18,7 @@ export default function FormLogin() {
     const dispatch = useDispatch();
     
     const navigate = useNavigate()
+    const { toggleTheme, theme } = useContext(ThemeContext)
 
     const handleForm = (e) => {
         e.preventDefault();
@@ -77,7 +79,10 @@ export default function FormLogin() {
                     value={log.password}
                     onInput={changeInput}
                     placeholder="Entrez votre mot de passe" />
-                <button type="submit">connexion</button>
+                <button
+                    className={theme ? "btn-dark" : "btn-light"}
+                type="submit"
+                >connexion</button>
             </form>
                 {longinErro && (
                     <h2>Error connextion</h2>

@@ -1,15 +1,15 @@
 import './App.css';
-import { useState, useEffect } from 'react';
+import {useEffect } from 'react';
 import Navbar from './Components/Navbar/Navbar';
 import { Routes, Route } from 'react-router-dom';
 import Home from './Containers/Home/Home';
 import Login from './Containers/Login/Login';
 import Register from './Containers/Register/Register';
-// import UserContext from './UserContext';
+import ThemeContextProvider from './Context/ThemeContext'
 import Error404 from "./Components/Error404/Error404"
 import axios from 'axios';
 import { useSelector, useDispatch } from 'react-redux';
-
+import BtnToggle from './Components/BtnToggle/BtnToggle'
 function App() {
 
 
@@ -27,15 +27,18 @@ function App() {
         })
       });
 
-    
+
   }, [])
 
-console.log(email)
+  console.log(email)
   return (
 
     <div className="App">
+      <ThemeContextProvider>
         <Navbar />
+        <BtnToggle />
         <div className="subnav">
+
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/login" element={<Login />} />
@@ -44,10 +47,10 @@ console.log(email)
           </Routes>
           <div>
             {email && (<div> Logged in as {email}</div>)}
-
             {!email && (<div> Not logged in </div>)}
           </div>
         </div>
+      </ThemeContextProvider>
     </div>
   );
 }

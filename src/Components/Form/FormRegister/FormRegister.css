@@ -28,11 +28,20 @@
     font-family: Arial, Helvetica, sans-serif;
 }
 
-.container-form button {
+.btn-light {
     padding: 10px 15px;
     width: 200px;
     background: transparent;
     border: 1px solid rgba(0, 0, 0, 0.8);
+    border-radius: 3px;
+    cursor: pointer;
+}
+.btn-dark {
+    padding: 10px 15px;
+    width: 200px;
+    background: transparent;
+    color: #f1f1f1;
+    border: 1px solid rgba(255, 255, 255, 0.8);
     border-radius: 3px;
     cursor: pointer;
 }
