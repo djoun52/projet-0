@@ -1,10 +1,10 @@
 import './App.css';
 import {useEffect } from 'react';
-import Navbar from './Components/Navbar/Navbar';
+import Navbar from './Components/Navbar/TopNavbar/Navbar';
 import { Routes, Route } from 'react-router-dom';
-import Home from './Containers/Home/Home';
-import Login from './Containers/Login/Login';
-import Register from './Containers/Register/Register';
+import Home from './Pages/Home/Home';
+import Login from './Pages/Login/Login';
+import Register from './Pages/Register/Register';
 import ThemeContextProvider from './Context/ThemeContext'
 import Error404 from "./Components/Error404/Error404"
 import axios from 'axios';

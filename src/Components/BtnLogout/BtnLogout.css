@@ -1,0 +1,10 @@
+.btn-logout{
+    padding: 10px 15px;
+    color: #f1f1f1;
+    text-transform: uppercase;
+    background: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.8);
+    border-radius: 3px;
+    cursor: pointer;
+
+}

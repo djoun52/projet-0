@@ -4,6 +4,8 @@ import { Link } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'; 
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom'
+import * as FaIcons from  "react-icons/fa";
+import BtnLogout from '../../BtnLogout/BtnLogout';
 
 export default function Navbar() {
 
@@ -30,17 +32,17 @@ export default function Navbar() {
             window.removeEventListener('resize', changeWidth)
         }
     }, [])
-    const logOut = () => {
-        axios.post('http://localhost:4000/logout', {}, { withCredentials: true })
-            .then(() =>
-                // user.setEmail('')
-                dispatch({
-                    type: "REMOVEUSER",
-                    payload: ''
-                })
-            )
-        navigate("/")
-    }
+    // const logOut = () => {
+    //     axios.post('http://localhost:4000/logout', {}, { withCredentials: true })
+    //         .then(() =>
+    //             // user.setEmail('')
+    //             dispatch({
+    //                 type: "REMOVEUSER",
+    //                 payload: ''
+    //             })
+    //         )
+    //     navigate("/")
+    // }
 
     return (
         <nav>
@@ -63,7 +65,7 @@ export default function Navbar() {
                     )}
                     {email.length !== 0 && (
                         <li className="items">
-                            <button onClick={logOut} className='btn-logout' onclick={logOut}>Log out</button>
+                            <BtnLogout/>
                         </li>
                     )}
                 </ul>
