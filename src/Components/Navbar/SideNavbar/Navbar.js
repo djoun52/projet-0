@@ -1,80 +1,54 @@
 import React, { useState, useEffect } from 'react'
 import './Navbar.css'
 import { Link } from 'react-router-dom'
-import { useSelector, useDispatch } from 'react-redux'; 
+import { useSelector, useDispatch } from 'react-redux';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom'
-import * as FaIcons from  "react-icons/fa";
+import * as FaIcons from "react-icons/fa";
+import * as AiIcons from "react-icons/ai";
 import BtnLogout from '../../BtnLogout/BtnLogout';
+import { SidebarData } from "./SidebarData"
+import { IconContext } from 'react-icons';
 
 export default function Navbar() {
 
-    const [toggleMenu, setToggleMenu] = useState(false)
-    const [largeur, setLargeur] = useState(window.innerWidth)
+    const [sidebar, setSidebar] = useState(false)
+    const showSidebar = () => setSidebar(!sidebar)
 
-    const navigate = useNavigate()
 
-    
-    const dispatch = useDispatch();
-
-    const toggleNav = () => {
-        setToggleMenu(!toggleMenu)
-    }
     const { email } = useSelector(state => ({
         ...state.userReducer,
     }))
-    useEffect(() => {
-        const changeWidth = () => {
-            setLargeur(window.innerWidth)
-        }
-        window.addEventListener('resize', changeWidth);
-        return () => {
-            window.removeEventListener('resize', changeWidth)
-        }
-    }, [])
-    // const logOut = () => {
-    //     axios.post('http://localhost:4000/logout', {}, { withCredentials: true })
-    //         .then(() =>
-    //             // user.setEmail('')
-    //             dispatch({
-    //                 type: "REMOVEUSER",
-    //                 payload: ''
-    //             })
-    //         )
-    //     navigate("/")
-    // }
+
 
     return (
-        <nav>
-            {(toggleMenu || largeur > 500) && (
-                <ul className="liste">
-
-                    <li className="items">
-                        <Link to='/'>Home</Link>
-                    </li>
-
-                    {!email && (
-                        <>
-                            <li className="items">
-                                <Link to='/login'>Login</Link>
-                            </li>
-                            <li className="items">
-                                <Link to='/register'>Register</Link>
-                            </li>
-                        </>
-                    )}
-                    {email.length !== 0 && (
-                        <li className="items">
-                            <BtnLogout/>
+        <>
+            <IconContext.Provider value={{ color: '#fff' }}>
+                <div className='navbar'>
+                    <Link to='#' className='menu-bars'>
+                        <FaIcons.FaBars onClick={showSidebar} />
+                    </Link>
+                </div>
+                <nav className={sidebar ? 'nav-menu active' : 'nav-menu'}>
+                    <ul className='nav-menu-items' onClick={showSidebar}>
+                        <li className='navbar-toggle'>
+                            <Link to='#' className='menu-bars'>
+                                <AiIcons.AiOutlineClose />
+                            </Link>
                         </li>
-                    )}
-                </ul>
-            )}
-
-            <button
-                onClick={toggleNav}
-                className="btn">BTN</button>
-
-        </nav>
+                        {SidebarData.map((item, index) => {
+                            return (
+                                <li key={index} className={item.cName}>
+                                    <Link to={item.path}>
+                                        {item.icon}
+                                        <span>{item.title}</span>
+                                    </Link>
+                                </li>
+                            );
+                        })}
+                    </ul>
+                </nav>
+            </IconContext.Provider>
+        </>
     )
 }

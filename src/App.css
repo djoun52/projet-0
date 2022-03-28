@@ -1,7 +1,22 @@
-.App {
-  text-align: center;
-}
+/* @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100&display=swap');
+
+
+* {
+  font-family: 'Roboto'
+} */
 
 .subnav{
+  text-align: center;
   margin-top: 100px
+}
+
+
+.dark-body{
+  background-color: #222;
+  color: #f1f1f1;
+  
+}
+
+button{
+    transition: border 0.4s ease-in-out,
 }

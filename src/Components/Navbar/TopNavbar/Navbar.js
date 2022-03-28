@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import './Navbar.css'
 import { Link } from 'react-router-dom'
-import { useSelector, useDispatch } from 'react-redux'; 
-import axios from 'axios';
-import { useNavigate } from 'react-router-dom'
+import { useSelector } from 'react-redux'; 
 import BtnLogout from '../../BtnLogout/BtnLogout';
 
 export default function Navbar() {
@@ -11,8 +9,6 @@ export default function Navbar() {
     const [toggleMenu, setToggleMenu] = useState(false)
     const [largeur, setLargeur] = useState(window.innerWidth)
 
-    const navigate = useNavigate()
-    const dispatch = useDispatch();
 
     const toggleNav = () => {
         setToggleMenu(!toggleMenu)
@@ -29,17 +25,7 @@ export default function Navbar() {
             window.removeEventListener('resize', changeWidth)
         }
     }, [])
-    // const logOut = () => {
-    //     axios.post('http://localhost:4000/logout', {}, { withCredentials: true })
-    //         .then(() =>
-    //             // user.setEmail('')
-    //             dispatch({
-    //                 type: "REMOVEUSER",
-    //                 payload: ''
-    //             })
-    //         )
-    //     navigate("/")
-    // }
+
 
     return (
         <nav>
