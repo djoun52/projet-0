@@ -9,7 +9,7 @@ import jwt from 'jsonwebtoken';
 
 const secret = "secret123";
 
-await mongoose.connect('mongodb+srv://Mernadmin:Bh8O42qgwLTAuqAl@merndb.v5ytp.mongodb.net/myFirstDatabase?retryWrites=true&w=majority', { useNewUrlParser: true, useUnifiedTopology: true })
+await mongoose.connect('mongodb+srv://admin:0Dix9OrzmgiMn31S@projet0bdd.9jxva.mongodb.net/myFirstDatabase?retryWrites=true&w=majority', { useNewUrlParser: true, useUnifiedTopology: true })
 const db = mongoose.connection;
 db.on('error', console.log)
 
@@ -29,17 +29,23 @@ app.get('/', (req, res) => {
 })
 
 app.get('/user', (req, res) => {
-    const payload = jwt.verify(req.cookies.token, secret);
-    User.findById(payload.id)
-        .then(userInfo => {
-            res.json({ id: userInfo._id, email: userInfo.email });
-        })
+        try {
+            const payload = jwt.verify(req.cookies.token, secret);
+            User.findById(payload.id)
+                .then(userInfo => {
+                    res.json({ statue: 'user', id: userInfo._id, email: userInfo.email, roles: userInfo.roles });
+                }).catch(() => {
+                    res.json({ response: 'Error' })
+                })
+        } catch (err) {
+            res.json({ statue: 'no user' })
+        }
 })
 
 app.post('/register', (req, res) => {
     const { email, password } = req.body;
     const hashedPassword = bcrypt.hashSync(password, 10);
-    const user = new User({ email: email, password: hashedPassword });
+    const user = new User({ email: email, password: hashedPassword, roles: ["commonUser"] });
     User.findOne({ email }).then(data => {
         
         if (data == null) {
@@ -49,7 +55,7 @@ app.post('/register', (req, res) => {
                         console.log(err);
                         res.sendStatus(500);
                     } else {
-                        res.cookie('token', token).json({ id: userInfo._id, email: userInfo.email });
+                        res.cookie('token', token).json({ id: userInfo._id, email: userInfo.email, roles: userInfo.roles });
                     }
                 })
             })
@@ -74,7 +80,7 @@ app.post('/login', (req, res) => {
                             console.log(err);
                             res.sendStatus(500);
                         } else {
-                            res.cookie('token', token).json({ id: userInfo._id, email: userInfo.email });
+                            res.cookie('token', token).json({ id: userInfo._id, email: userInfo.email, roles: userInfo.roles });
                         }
                     });
 

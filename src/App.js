@@ -21,16 +21,15 @@ function App() {
   useEffect(() => {
     axios.get('http://localhost:4000/user', { withCredentials: true })
       .then(response => {
-        dispatch({
-          type: "ADDUSER",
-          payload: response.data.email,
-        })
+        if (response.data.statue === 'user'){
+          dispatch({
+            type: "ADDUSER",
+            payload: response.data.email,
+          })
+        }
       });
-
-
   }, [])
 
-  console.log(email)
   return (
 
     <div className="App">

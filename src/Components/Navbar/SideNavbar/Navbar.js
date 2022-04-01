@@ -14,7 +14,7 @@ export default function Navbar() {
 
     const [sidebar, setSidebar] = useState(false)
     const showSidebar = () => setSidebar(!sidebar)
-
+    let result ;
 
     const { email } = useSelector(state => ({
         ...state.userReducer,
@@ -46,6 +46,22 @@ export default function Navbar() {
                                 </li>
                             );
                         })}
+                        {!email && (
+                            <>
+                                <li className="nav-text">
+                                    
+                                    <Link to='/login'><AiIcons.AiOutlineLogin />Login</Link>
+                                </li>
+                                <li className="nav-text">
+                                    <Link to='/register'><AiIcons.AiFillEdit />Register</Link>
+                                </li>
+                            </>
+                        )}
+                        {email.length !== 0 && (
+                            <li className="nav-text">
+                                <BtnLogout />
+                            </li>
+                        )}
                     </ul>
                 </nav>
             </IconContext.Provider>
