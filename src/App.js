@@ -49,6 +49,9 @@ function App() {
             {!email && (<div> Not logged in </div>)}
           </div>
         </div>
+        <footer>
+          
+        </footer>
       </ThemeContextProvider>
     </div>
   );

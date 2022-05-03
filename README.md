@@ -1,3 +1,27 @@
+# Presentation 
+The project 0 is a github repository who allows me to begin annay MERN (Mongodb, Express, React, Nodejs) app with some functionnality. 
+
+# TodoList
+    create api folder : done
+    create home page : done
+    create top-navbar component : done
+    create side-navbar component : done
+    create footer component : unfinish 
+    create navigation : done 
+    create Error404 component : done
+    create darkmode with context : done
+    create inscription and connexion form component and page : done
+    create user models with email and password : done
+    create mongodb access in api : done
+    create reducer for user : done
+    create a BtnLogout component : done
+    create a double input check for password : not
+    create a role propriaty for user : done
+    create a pseudo propriaty for user : not
+    create a email verificator : not
+    verify if the information from the database who is a string is interpreted : not 
+
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
