@@ -6,10 +6,15 @@ import User from "./models/user.js";
 import bcrypt from "bcrypt";
 import cors from "cors"
 import jwt from 'jsonwebtoken';
+import dotenv from "dotenv"
+
+dotenv.config()
+
+
 
 const secret = "secret123";
 
-await mongoose.connect('mongodb+srv://admin:0Dix9OrzmgiMn31S@projet0bdd.9jxva.mongodb.net/myFirstDatabase?retryWrites=true&w=majority', { useNewUrlParser: true, useUnifiedTopology: true })
+await mongoose.connect(process.env.MONDODB_URL, { useNewUrlParser: true, useUnifiedTopology: true })
 const db = mongoose.connection;
 db.on('error', console.log)
 
