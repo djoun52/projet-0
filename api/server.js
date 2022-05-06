@@ -34,25 +34,25 @@ app.get('/', (req, res) => {
 })
 
 app.get('/user', (req, res) => {
-        try {
-            const payload = jwt.verify(req.cookies.token, secret);
-            User.findById(payload.id)
-                .then(userInfo => {
-                    res.json({ statue: 'user', id: userInfo._id, email: userInfo.email, roles: userInfo.roles });
-                }).catch(() => {
-                    res.json({ response: 'Error' })
-                })
-        } catch (err) {
-            res.json({ statue: 'no user' })
-        }
+    try {
+        const payload = jwt.verify(req.cookies.token, secret);
+        User.findById(payload.id)
+            .then(userInfo => {
+                res.json({ statue: 'user', id: userInfo._id, email: userInfo.email, pseudo: userInfo.pseudo, roles: userInfo.roles });
+            }).catch(() => {
+                res.json({ response: 'Error' })
+            })
+    } catch (err) {
+        res.json({ statue: 'no user' })
+    }
 })
 
 app.post('/register', (req, res) => {
-    const { email, password } = req.body;
+    const { email, pseudo, password } = req.body;
     const hashedPassword = bcrypt.hashSync(password, 10);
-    const user = new User({ email: email, password: hashedPassword, roles: ["commonUser"] });
+    const user = new User({ email: email, pseudo: pseudo, password: hashedPassword, roles: ["commonUser"] });
     User.findOne({ email }).then(data => {
-        
+
         if (data == null) {
             user.save().then(userInfo => {
                 jwt.sign({ id: userInfo._id, email: userInfo.email }, secret, (err, token) => {
@@ -60,11 +60,10 @@ app.post('/register', (req, res) => {
                         console.log(err);
                         res.sendStatus(500);
                     } else {
-                        res.cookie('token', token).json({ id: userInfo._id, email: userInfo.email, roles: userInfo.roles });
+                        res.cookie('token', token).json({ id: userInfo._id, email: userInfo.email, pseudo: userInfo.pseudo, roles: userInfo.roles });
                     }
                 })
             })
-            
         } else {
             res.sendStatus(401);
         }
@@ -88,7 +87,6 @@ app.post('/login', (req, res) => {
                             res.cookie('token', token).json({ id: userInfo._id, email: userInfo.email, roles: userInfo.roles });
                         }
                     });
-
                 } else {
                     res.sendStatus(401);
                 }

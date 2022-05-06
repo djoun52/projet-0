@@ -13,7 +13,7 @@ import BtnToggle from './Components/BtnToggle/BtnToggle'
 function App() {
 
 
-  const { email } = useSelector(state => ({
+  const { email,pseudo } = useSelector(state => ({
     ...state.userReducer,
   }))
   const dispatch = useDispatch();
@@ -22,9 +22,10 @@ function App() {
     axios.get('http://localhost:4000/user', { withCredentials: true })
       .then(response => {
         if (response.data.statue === 'user'){
+          
           dispatch({
             type: "ADDUSER",
-            payload: response.data.email,
+            payload: response.data,
           })
         }
       });
@@ -45,7 +46,7 @@ function App() {
             <Route path="*" element={<Error404 />} />
           </Routes>
           <div>
-            {email && (<div> Logged in as {email}</div>)}
+            {email && (<div> Logged in as {pseudo}</div>)}
             {!email && (<div> Not logged in </div>)}
           </div>
         </div>

@@ -10,16 +10,17 @@ The project 0 is a github repository who allows me to begin annay MERN (Mongodb,
     create navigation : done 
     create Error404 component : done
     create darkmode with context : done
-    create inscription and connexion form component and page : done
+    create inscription and connexion form component and pages : done
     create user models with email and password : done
     create mongodb access in api : done
     create reducer for user : done
     create a BtnLogout component : done
-    create a double input check for password : not
+    create a double input check for password : done
     create a role propriaty for user : done
-    create a pseudo propriaty for user : not
+    create a pseudo propriaty for user : done
     create a email verificator : not
-    verify if the information from the database who is a string is interpreted : not 
+    verify if the information from the database who is a string is interpreted : checked 
+    make more specify error message : not 
 
 
 # Getting Started with Create React App

@@ -1,5 +1,6 @@
 const INITIAL_STATE = {
-    email: ""
+    email: "",
+    pseudo: ""
 }
 
 function userReducer(state = INITIAL_STATE, action) {
@@ -8,7 +9,8 @@ function userReducer(state = INITIAL_STATE, action) {
         case 'ADDUSER':{
             return{
                 ...state,
-                email: action.payload
+                email: action.payload.email,
+                pseudo: action.payload.pseudo
             }
         }
         case 'REMOVEUSER':{
