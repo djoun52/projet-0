@@ -21,6 +21,7 @@ The project 0 is a github repository who allows me to begin annay MERN (Mongodb,
     create a email verificator : not
     verify if the information from the database who is a string is interpreted : checked 
     make more specify error message : not 
+    Profil page : not do
 
 
 # Getting Started with Create React App

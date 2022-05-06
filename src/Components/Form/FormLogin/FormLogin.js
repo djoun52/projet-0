@@ -28,7 +28,7 @@ export default function FormLogin() {
                 
                 dispatch({
                     type: "ADDUSER",
-                    payload: response.data.email,
+                    payload: response.data,
                 })
                 setLog({
                     email: '',

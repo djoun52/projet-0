@@ -84,7 +84,7 @@ app.post('/login', (req, res) => {
                             console.log(err);
                             res.sendStatus(500);
                         } else {
-                            res.cookie('token', token).json({ id: userInfo._id, email: userInfo.email, roles: userInfo.roles });
+                            res.cookie('token', token).json({ id: userInfo._id, email: userInfo.email, pseudo: userInfo.pseudo, roles: userInfo.roles });
                         }
                     });
                 } else {

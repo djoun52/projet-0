@@ -3,6 +3,7 @@ import {useEffect } from 'react';
 import Navbar from './Components/Navbar/SideNavbar/Navbar';
 import { Routes, Route } from 'react-router-dom';
 import Home from './Pages/Home/Home';
+import Profil from './Pages/Profil/Profil';
 import Login from './Pages/Login/Login';
 import Register from './Pages/Register/Register';
 import ThemeContextProvider from './Context/ThemeContext'
@@ -41,6 +42,7 @@ function App() {
 
           <Routes>
             <Route path="/" element={<Home />} />
+            <Route path="/profil" element={<Profil />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
             <Route path="*" element={<Error404 />} />

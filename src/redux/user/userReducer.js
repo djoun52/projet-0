@@ -10,7 +10,7 @@ function userReducer(state = INITIAL_STATE, action) {
             return{
                 ...state,
                 email: action.payload.email,
-                pseudo: action.payload.pseudo
+                pseudo: action.payload.pseudo,
             }
         }
         case 'REMOVEUSER':{
