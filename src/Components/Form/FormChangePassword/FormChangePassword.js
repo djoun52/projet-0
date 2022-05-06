@@ -3,7 +3,7 @@ import "./FormChangePassword.css"
 import { ThemeContext } from '../../../Context/ThemeContext';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom'
-import { useDispatch } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 
 
 export default function FormChangePassword() {
@@ -14,7 +14,11 @@ export default function FormChangePassword() {
         checkPass : ''
     })
     const [errorForm, setErrorForm] = useState(false)
-    const dispatch = useDispatch();
+    // const dispatch = useDispatch();
+    const { email } = useSelector(state => ({
+        ...state.userReducer,
+    }))
+    console.log(email)
 
     const navigate = useNavigate()
     const {theme } = useContext(ThemeContext)
@@ -24,6 +28,7 @@ export default function FormChangePassword() {
         let info = {
             input,
         }
+
 
         if (input.newpass === input.checkPass) {
             axios.post('http://localhost:4000/changepass', info, { withCredentials: true })
