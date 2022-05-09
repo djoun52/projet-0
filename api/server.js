@@ -96,6 +96,24 @@ app.post('/login', (req, res) => {
         })
 })
 
+app.post('/changepass', (req, res)=>{
+    const { password, id } = req.body;
+    const hashedPassword = bcrypt.hashSync(password, 10);
+    User.findOneAndUpdate({ id: id }, { password: hashedPassword }, { returnOriginal: false }, (err, updatedUser) => {
+        if (err) {
+            console.log(err);
+            res.sendStatus(500);
+        } else {
+            res.json({change : 'ok'});
+        }
+        
+    })
+
+
+})
+
+
+
 app.post('/logout', (req, res) => {
     res.cookie('token', '').send();
 })

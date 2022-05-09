@@ -6,7 +6,7 @@ The project 0 is a github repository who allows me to begin annay MERN (Mongodb,
     create home page : done
     create top-navbar component : done
     create side-navbar component : done
-    create footer component : unfinish 
+    create footer component : in progress 
     create navigation : done 
     create Error404 component : done
     create darkmode with context : done
@@ -18,10 +18,11 @@ The project 0 is a github repository who allows me to begin annay MERN (Mongodb,
     create a double input check for password : done
     create a role propriaty for user : done
     create a pseudo propriaty for user : done
-    create a email verificator : not
+    create a email verificator : to begin
     verify if the information from the database who is a string is interpreted : checked 
-    make more specify error message : not 
-    Profil page : not do
+    make more specify error message : to begin
+    Profil page : in progress 
+    Form for changing the password : done
 
 
 # Getting Started with Create React App

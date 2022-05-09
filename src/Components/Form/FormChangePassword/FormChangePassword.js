@@ -3,7 +3,7 @@ import "./FormChangePassword.css"
 import { ThemeContext } from '../../../Context/ThemeContext';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom'
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 
 export default function FormChangePassword() {
@@ -15,10 +15,9 @@ export default function FormChangePassword() {
     })
     const [errorForm, setErrorForm] = useState(false)
     // const dispatch = useDispatch();
-    const { email } = useSelector(state => ({
+    const { id } = useSelector(state => ({
         ...state.userReducer,
     }))
-    console.log(email)
 
     const navigate = useNavigate()
     const {theme } = useContext(ThemeContext)
@@ -26,7 +25,8 @@ export default function FormChangePassword() {
     const handleForm = (e) => {
         e.preventDefault();
         let info = {
-            input,
+            password: input.newpass,
+            id: id
         }
 
 
