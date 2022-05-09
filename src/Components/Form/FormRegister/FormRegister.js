@@ -26,7 +26,7 @@ export default function FormRegister() {
     
                     dispatch({
                         type: "ADDUSER",
-                        payload: response.data.email,
+                        payload: response.data,
                     })
                     setLog({
                         email: '',

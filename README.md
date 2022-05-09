@@ -1,24 +1,24 @@
 # Presentation 
-The project 0 is a github repository who allows me to begin annay MERN (Mongodb, Express, React, Nodejs) app with some functionnality. 
+The project 0 is a github repository who allows me to begin annay MERN (Mongodb, Express, React, Nodejs) app with some basic functionnality. 
 
 # TodoList
-    create api folder : done
-    create home page : done
-    create top-navbar component : done
-    create side-navbar component : done
-    create footer component : in progress 
-    create navigation : done 
-    create Error404 component : done
-    create darkmode with context : done
-    create inscription and connexion form component and pages : done
-    create user models with email and password : done
-    create mongodb access in api : done
-    create reducer for user : done
-    create a BtnLogout component : done
-    create a double input check for password : done
-    create a role propriaty for user : done
-    create a pseudo propriaty for user : done
-    create a email verificator : to begin
+    set api : done
+    home page : done
+    top-navbar component : done
+    side-navbar component : done
+    footer component : in progress 
+    navigation : done 
+    Error404 component : done
+    darkmode with context : done
+    inscription and connexion form component and pages : done
+    user models with email and password : done
+    mongodb access in api : done
+    reducer for user : done
+    BtnLogout component : done
+    double input check for password : done
+    role propriaty for user : done
+    pseudo propriaty for user : done
+    email verificator : to begin
     verify if the information from the database who is a string is interpreted : checked 
     make more specify error message : to begin
     Profil page : in progress 
