@@ -1,7 +1,7 @@
 import './App.css';
 import {useEffect } from 'react';
 import Navbar from './Components/Navbar/SideNavbar/Navbar';
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, Link } from 'react-router-dom';
 import Home from './Pages/Home/Home';
 import Profil from './Pages/Profil/Profil';
 import Login from './Pages/Login/Login';
@@ -11,8 +11,10 @@ import Error404 from "./Components/Error404/Error404"
 import axios from 'axios';
 import { useSelector, useDispatch } from 'react-redux';
 import BtnToggle from './Components/BtnToggle/BtnToggle'
-function App() {
 
+
+
+function App() {
 
   const { email,pseudo } = useSelector(state => ({
     ...state.userReducer,
@@ -53,7 +55,7 @@ function App() {
           </div>
         </div>
         <footer>
-          
+          <Link to='/mentionlegal' className='ml-5'>Mention légal</Link>
         </footer>
       </ThemeContextProvider>
     </div>

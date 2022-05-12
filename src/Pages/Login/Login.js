@@ -21,7 +21,7 @@ export default function Login() {
     
     return (
         <>
-            <h1 className="home-title">connection</h1>
+            <h1 className="home-title">Connection</h1>
             <Form/>
         </>
     )

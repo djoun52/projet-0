@@ -4,15 +4,14 @@ import cookieParser from "cookie-parser";
 import mongoose from "mongoose";
 import User from "./models/user.js";
 import bcrypt from "bcrypt";
-import cors from "cors"
 import jwt from 'jsonwebtoken';
+import cors from "cors"
 import dotenv from "dotenv"
+import userRouter from './routes/user.js'
+
 
 dotenv.config()
 
-
-
-const secret = "secret123";
 
 await mongoose.connect(process.env.MONDODB_URL, { useNewUrlParser: true, useUnifiedTopology: true })
 const db = mongoose.connection;
@@ -32,91 +31,89 @@ app.use(cors({
 app.get('/', (req, res) => {
     res.send({ body: "ok" });
 })
+app.use(userRouter)
+// app.get('/user', (req, res) => {
+//     try {
+//         const payload = jwt.verify(req.cookies.token, secret);
+//         User.findById(payload.id)
+//             .then(userInfo => {
+//                 res.json({ statue: 'user', id: userInfo._id, email: userInfo.email, pseudo: userInfo.pseudo, roles: userInfo.roles });
+//             }).catch(() => {
+//                 res.json({ response: 'Error' })
+//             })
+//     } catch (err) {
+//         res.json({ statue: 'no user' })
+//     }
+// })
 
-app.get('/user', (req, res) => {
-    try {
-        const payload = jwt.verify(req.cookies.token, secret);
-        User.findById(payload.id)
-            .then(userInfo => {
-                res.json({ statue: 'user', id: userInfo._id, email: userInfo.email, pseudo: userInfo.pseudo, roles: userInfo.roles });
-            }).catch(() => {
-                res.json({ response: 'Error' })
-            })
-    } catch (err) {
-        res.json({ statue: 'no user' })
-    }
-})
+// app.post('/register', (req, res) => {
+//     const { email, pseudo, password } = req.body;
+//     const hashedPassword = bcrypt.hashSync(password, 10);
+//     const user = new User({ email: email, pseudo: pseudo, password: hashedPassword, roles: ["commonUser"] });
+//     User.findOne({ email }).then(data => {
 
-app.post('/register', (req, res) => {
-    const { email, pseudo, password } = req.body;
-    const hashedPassword = bcrypt.hashSync(password, 10);
-    const user = new User({ email: email, pseudo: pseudo, password: hashedPassword, roles: ["commonUser"] });
-    User.findOne({ email }).then(data => {
+//         if (data == null) {
+//             user.save().then(userInfo => {
+//                 jwt.sign({ id: userInfo._id, email: userInfo.email }, secret, (err, token) => {
+//                     if (err) {
+//                         console.log(err);
+//                         res.sendStatus(500);
+//                     } else {
+//                         res.cookie('token', token).json({ id: userInfo._id, email: userInfo.email, pseudo: userInfo.pseudo, roles: userInfo.roles });
+//                     }
+//                 })
+//             })
+//         } else {
+//             res.sendStatus(401);
+//         }
 
-        if (data == null) {
-            user.save().then(userInfo => {
-                jwt.sign({ id: userInfo._id, email: userInfo.email }, secret, (err, token) => {
-                    if (err) {
-                        console.log(err);
-                        res.sendStatus(500);
-                    } else {
-                        res.cookie('token', token).json({ id: userInfo._id, email: userInfo.email, pseudo: userInfo.pseudo, roles: userInfo.roles });
-                    }
-                })
-            })
-        } else {
-            res.sendStatus(401);
-        }
+//     })
 
-    })
+// })
 
-})
+// app.post('/login', (req, res) => {
+//     const { email, password } = req.body;
+//     User.findOne({ email })
+//         .then(userInfo => {
+//             if (userInfo != null) {
+//                 const passVerif = bcrypt.compareSync(password, userInfo.password);
+//                 if (passVerif) {
+//                     jwt.sign({ id: userInfo._id, email }, secret, (err, token) => {
+//                         if (err) {
+//                             console.log(err);
+//                             res.sendStatus(500);
+//                         } else {
+//                             res.cookie('token', token).json({ id: userInfo._id, email: userInfo.email, pseudo: userInfo.pseudo, roles: userInfo.roles });
+//                         }
+//                     });
+//                 } else {
+//                     res.sendStatus(401);
+//                 }
+//             } else {
+//                 res.sendStatus(401);
+//             }
+//         })
+// })
 
-app.post('/login', (req, res) => {
-    const { email, password } = req.body;
-    User.findOne({ email })
-        .then(userInfo => {
-            if (userInfo != null) {
-                const passVerif = bcrypt.compareSync(password, userInfo.password);
-                if (passVerif) {
-                    jwt.sign({ id: userInfo._id, email }, secret, (err, token) => {
-                        if (err) {
-                            console.log(err);
-                            res.sendStatus(500);
-                        } else {
-                            res.cookie('token', token).json({ id: userInfo._id, email: userInfo.email, pseudo: userInfo.pseudo, roles: userInfo.roles });
-                        }
-                    });
-                } else {
-                    res.sendStatus(401);
-                }
-            } else {
-                res.sendStatus(401);
-            }
-        })
-})
-
-app.post('/changepass', (req, res)=>{
-    const { password, id } = req.body;
-    const hashedPassword = bcrypt.hashSync(password, 10);
-    User.findOneAndUpdate({ id: id }, { password: hashedPassword }, { returnOriginal: false }, (err, updatedUser) => {
-        if (err) {
-            console.log(err);
-            res.sendStatus(500);
-        } else {
-            res.json({change : 'ok'});
-        }
+// app.post('/changepass', (req, res)=>{
+//     const { password, id } = req.body;
+//     const hashedPassword = bcrypt.hashSync(password, 10);
+//     User.findOneAndUpdate({ id: id }, { password: hashedPassword }, { returnOriginal: false }, (err, updatedUser) => {
+//         if (err) {
+//             console.log(err);
+//             res.sendStatus(500);
+//         } else {
+//             res.json({change : 'ok'});
+//         }
         
-    })
+//     })
 
 
-})
+// })
 
-
-
-app.post('/logout', (req, res) => {
-    res.cookie('token', '').send();
-})
+// app.post('/logout', (req, res) => {
+//     res.cookie('token', '').send();
+// })
 
 app.listen(port, () => {
     console.log(`Server is running on port: ${port}`)

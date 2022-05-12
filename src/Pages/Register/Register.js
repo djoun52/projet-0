@@ -17,7 +17,7 @@ export default function Register() {
     
     return (
         <>
-            <h1 className="home-title">inscription</h1>
+            <h1 className="home-title">Inscription</h1>
             <Form/>
         </>
     )

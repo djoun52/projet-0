@@ -25,7 +25,19 @@ iframe{
   border-width: 0;
 }
 
+footer{
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  background-color: #222;
+}
 
 .mt-2{
   margin-top: 2em;
+}
+
+
+
+.ml-5{
+  margin-left: 5em;
 }
