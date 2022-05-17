@@ -19,24 +19,24 @@ export default function getUser(req, res){
     }
 }
 
-export  function register(req, res){
+export function register(req, res){
     const { email, pseudo, password } = req.body;
     const hashedPassword = bcrypt.hashSync(password, 10);
-    const user = new User({ email: email, pseudo: pseudo, password: hashedPassword, roles: ["commonUser"] });
     User.findOne({ email }).then(data => {
         if (data == null) {
+            const user = new User({ email: email, pseudo: pseudo, password: hashedPassword, roles: ["commonUser"] });
             user.save().then(userInfo => {
                 jwt.sign({ id: userInfo._id, email: userInfo.email }, secret, (err, token) => {
                     if (err) {
                         console.log(err);
-                        res.sendStatus(500);
+                        res.status(500);
                     } else {
                         res.cookie('token', token).json({ id: userInfo._id, email: userInfo.email, pseudo: userInfo.pseudo, roles: userInfo.roles });
                     }
                 })
             })
         } else {
-            res.sendStatus(401);
+            res.status(401);
         }
 
     })
@@ -53,16 +53,16 @@ export function login(req, res) {
                     jwt.sign({ id: userInfo._id, email }, secret, (err, token) => {
                         if (err) {
                             console.log(err);
-                            res.sendStatus(500);
+                            res.status(500);
                         } else {
-                            res.cookie('token', token).json({ id: userInfo._id, email: userInfo.email, pseudo: userInfo.pseudo, roles: userInfo.roles });
+                            res.status(201).cookie('token', token).json({ id: userInfo._id, email: userInfo.email, pseudo: userInfo.pseudo, roles: userInfo.roles });
                         }
                     });
                 } else {
-                    res.sendStatus(401);
+                    res.status(401);
                 }
             } else {
-                res.sendStatus(401);
+                res.status(401);
             }
         })
 }

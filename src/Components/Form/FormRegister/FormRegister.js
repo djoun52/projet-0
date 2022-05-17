@@ -13,17 +13,28 @@ export default function FormRegister() {
         password: '',
         checkPass: ''
     })
-    const [errorRegister, setErrorRegister] = useState(false)
+    const [errorRegister, setErrorRegister] = useState({
+        error: false,
+        message: ''
+    })
     const { theme } = useContext(ThemeContext)
     const dispatch = useDispatch();
     const navigate = useNavigate()
 
+
+
     const handleForm = (e) => {
         e.preventDefault();
-        if ( log.password === log.checkPass){
+        if (log.password !== log.checkPass) {
+            setErrorRegister({ error: true, message: 'password non corespondant' })
+        } else if (log.pseudo.length === 0) {
+            setErrorRegister({ error: true, message: 'pseudo vide' })
+        } else if (log.password.length < 8 || log.password.length > 20) {
+            setErrorRegister({ error: true, message: 'le mots de passe doit contenire entre 8 et 20 caractere ' })
+        } else {
             axios.post('http://localhost:4000/register', log, { withCredentials: true })
                 .then(response => {
-    
+
                     dispatch({
                         type: "ADDUSER",
                         payload: response.data,
@@ -32,16 +43,15 @@ export default function FormRegister() {
                         email: '',
                         password: ''
                     })
-                    setErrorRegister(false)
+                    setErrorRegister({ error: false, message: '' })
                     navigate("/")
                 })
                 .catch(() => {
-                    setErrorRegister(true)
+                    setErrorRegister({ error: true, message: 'probleme Inscription' })
                 });
-        } else {
-            setErrorRegister(true)
-        } 
+        }
     }
+
 
 
     const changeInput = (e) => {
@@ -106,8 +116,8 @@ export default function FormRegister() {
                     className={theme ? "btn-dark" : "btn-light"}
                     type="submit">connexion</button>
             </form>
-            {errorRegister && (
-                <h2>Error inscription</h2>
+            {errorRegister.error && (
+                <h2>{errorRegister.message}</h2>
             )}
         </>
     )
