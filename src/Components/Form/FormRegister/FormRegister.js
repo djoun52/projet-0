@@ -34,7 +34,6 @@ export default function FormRegister() {
         } else {
             axios.post('http://localhost:4000/register', log, { withCredentials: true })
                 .then(response => {
-
                     dispatch({
                         type: "ADDUSER",
                         payload: response.data,
@@ -47,7 +46,7 @@ export default function FormRegister() {
                     navigate("/")
                 })
                 .catch(() => {
-                    setErrorRegister({ error: true, message: 'probleme Inscription' })
+                    setErrorRegister({ error: true, message: 'Email déjà utilisé' })
                 });
         }
     }
