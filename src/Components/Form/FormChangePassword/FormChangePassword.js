@@ -1,5 +1,5 @@
 import React, { useState, useContext } from 'react';
-import "./FormChangePassword.css"
+import "../Form.css"
 import { ThemeContext } from '../../../Context/ThemeContext';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom'
@@ -25,10 +25,11 @@ export default function FormChangePassword() {
     const handleForm = (e) => {
         e.preventDefault();
         let info = {
-            password: input.newpass,
-            id: id
+            oldPassword: input.oldpass,
+            newPassword: input.newpass,
+            userId: id
         }
-
+        console.log(info.userId)
 
         if (input.newpass === input.checkPass) {
             axios.post('http://localhost:4000/changepass', info, { withCredentials: true })

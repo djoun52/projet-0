@@ -1,5 +1,5 @@
 import React, { useState, useContext } from 'react';
-import "./FormLogin.css"
+import "../Form.css"
 import { ThemeContext } from '../../../Context/ThemeContext';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom'
@@ -18,7 +18,7 @@ export default function FormLogin() {
     const dispatch = useDispatch();
     
     const navigate = useNavigate()
-    const { toggleTheme, theme } = useContext(ThemeContext)
+    const { theme } = useContext(ThemeContext)
 
     const handleForm = (e) => {
         e.preventDefault();

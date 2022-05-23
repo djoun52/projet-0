@@ -26,7 +26,7 @@ export function register(req, res) {
     const hashedPassword = bcrypt.hashSync(password, 10);
 
     let OTP = ''
-    for (let i = 0; i <=5 ; i++) {
+    for (let i = 0; i <= 5; i++) {
         const randomVal = Math.round(Math.random() * 9)
         OTP += randomVal
     }
@@ -37,7 +37,7 @@ export function register(req, res) {
             const user = new User({ email: email, pseudo: pseudo, password: hashedPassword, roles: ["commonUser"] });
             user.save().then(userInfo => {
                 const emailVerificationToken = new EmailVerificationToken({ owner: userInfo._id, token: HashedOTP })
-                emailVerificationToken.save() ;
+                emailVerificationToken.save();
                 let transport = nodemailer.createTransport({
                     host: "smtp.mailtrap.io",
                     port: 2525,
@@ -99,4 +99,51 @@ export function login(req, res) {
 
 export function logout(req, res) {
     res.cookie('token', '').send();
+}
+
+export function changePassword(req, res){
+    const { oldPassword, newPassword, userId } = req.body;
+    const hashedOldPassword = bcrypt.hashSync(oldPassword, 10);
+    const hashednewPassword = bcrypt.hashSync(newPassword, 10);
+    
+
+    User.findById(userId).then(userInfo => {
+        if (!userInfo) return res.json({ error: 'user not found' });
+        if (!bcrypt.compare(hashedOldPassword, userInfo.password)) return res.json({ error: 'mauvais mots de passe' });
+        userInfo.password = hashednewPassword;
+        userInfo.save();
+    })
+}
+
+export function verifyEmail(req, res) {
+    const { userId, OTP } = req.body;
+    if (!isValidObjectId(userId)) return res.json({ error: 'invalid user' });
+    User.findById(userId).then(userInfo => {
+        if (!userInfo) return res.json({ error: 'user not found' });
+        if (userInfo.isVerified) return res.json({ error: 'user is already verified' });
+        EmailVerificationToken.findOne({ owner: userId }).then(token => {
+            if (!token) return res.json({ error: 'token not found' });
+            const isMatched = bcrypt.compare(OTP, token.token);
+            if(!isMatched) return res.json({ error: 'Please submit a valid OTP'})
+            userInfo.isVerified = true;
+            userInfo.save();
+            
+        })
+        EmailVerificationToken.findByIdAndDelete(token._id)
+        let transport = nodemailer.createTransport({
+            host: "smtp.mailtrap.io",
+            port: 2525,
+            auth: {
+                user: "e289a8f1d95375",
+                pass: "18c65de80695da"
+            }
+        });
+        transport.sendMail({
+            from: 'verification@projet0.com',
+            to: userInfo.email,
+            subject: 'Welcome Email',
+            html: `<h1>Welcome to our app and thanks for choosing us.</h1>`
+        })
+        res.json({message: 'Your email is verified'})
+    })
 }
