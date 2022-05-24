@@ -7,7 +7,7 @@ export default function Register() {
     const {statue} = useSelector(state => ({
         ...state.userReducer,
     }))
-    console.log(statue)
+
     const navigate = useNavigate()
     useEffect(() => {
         if (statue) {

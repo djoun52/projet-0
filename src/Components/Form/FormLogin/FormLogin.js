@@ -7,25 +7,25 @@ import { useDispatch } from 'react-redux';
 
 export default function FormLogin() {
 
-    
-    
+
+
     const [log, setLog] = useState({
         email: '',
         password: ''
     })
 
-    const [longinErro, setLonginErro] = useState(false)
+    const [loginErro, setLoginErro] = useState(false)
     const dispatch = useDispatch();
-    
+
     const navigate = useNavigate()
     const { theme } = useContext(ThemeContext)
 
     const handleForm = (e) => {
         e.preventDefault();
-        
+
         axios.post('http://localhost:4000/login', log, { withCredentials: true })
             .then(response => {
-                
+
                 dispatch({
                     type: "ADDUSER",
                     payload: response.data,
@@ -34,11 +34,11 @@ export default function FormLogin() {
                     email: '',
                     password: ''
                 })
-                setLonginErro(false)
+                setLoginErro(false)
                 navigate("/")
             })
-            .catch(()=> {
-                setLonginErro(true)
+            .catch(() => {
+                setLoginErro(true)
             });
 
     }
@@ -81,12 +81,12 @@ export default function FormLogin() {
                     placeholder="Entrez votre mot de passe" />
                 <button
                     className={theme ? "btn-dark" : "btn-light"}
-                type="submit"
+                    type="submit"
                 >connexion</button>
             </form>
-                {longinErro && (
-                    <h2>Error connextion</h2>
-                )}
+            {loginErro && (
+                <h2>identifiant ou mots de passe incorrect</h2>
+            )}
         </>
     )
 }

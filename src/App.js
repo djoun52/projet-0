@@ -5,6 +5,7 @@ import { Routes, Route, Link } from 'react-router-dom';
 import Home from './Pages/Home/Home';
 import Profil from './Pages/Profil/Profil';
 import Login from './Pages/Login/Login';
+import VerifEmail from './Pages/VerifEmail/VerifEmail';
 import Register from './Pages/Register/Register';
 import ThemeContextProvider from './Context/ThemeContext'
 import Error404 from "./Components/Error404/Error404"
@@ -47,6 +48,7 @@ function App() {
             <Route path="/profil" element={<Profil />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
+            <Route path="/verif-email/:userId" element={<VerifEmail />} />
             <Route path="*" element={<Error404 />} />
           </Routes>
           <div>

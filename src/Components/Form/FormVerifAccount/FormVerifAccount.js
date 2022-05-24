@@ -1,10 +1,9 @@
-import React from 'react'
+import React, { useState, useContext } from 'react'
 import "../Form.css";
 import { ThemeContext } from '../../../Context/ThemeContext';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom'
-import { useDispatch } from 'react-redux';
-
+import { useNavigate, useParams } from 'react-router-dom'
+import { useSelector } from 'react-redux';
 
 export default function FormVerifAccount() {
 
@@ -14,13 +13,15 @@ export default function FormVerifAccount() {
   const [errorForm, setErrorForm] = useState(false)
   const navigate = useNavigate()
   const { theme } = useContext(ThemeContext)
-  const { id } = useSelector(state => ({
-    ...state.userReducer,
-  }))
+
+  const params = useParams()
+
+
+
   const handleForm = (e) => {
     e.preventDefault();
     let info = {
-      userId: id,
+      userId: params.userId,
       OTP: input.token
     }
     axios.post('http://localhost:4000/verify-email', info, { withCredentials: true })

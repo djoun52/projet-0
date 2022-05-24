@@ -3,6 +3,7 @@ import EmailVerificationToken from "../models/emailVerificationToken.js";
 import nodemailer from "nodemailer";
 import bcrypt from "bcrypt";
 import jwt from 'jsonwebtoken';
+import mongoose from "mongoose";
 
 
 const secret = "secret123";
@@ -53,6 +54,8 @@ export function register(req, res) {
                     html: `
                     <p> your verification token </p>
                     <h1> ${OTP} </h1>
+                    <p> use this link to verify your email address</p>
+                    <a href="http://localhost:3000/verif-email/${userInfo._id}">lien</a>
                     `
                 })
                 jwt.sign({ id: userInfo._id, email: userInfo.email }, secret, (err, token) => {
@@ -88,7 +91,7 @@ export function login(req, res) {
                         }
                     });
                 } else {
-                    res.status(401);
+                    res.status(401).json({message: "wrong password"});
                 }
             } else {
                 res.status(401);
@@ -106,7 +109,9 @@ export function changePassword(req, res){
     const hashedOldPassword = bcrypt.hashSync(oldPassword, 10);
     const hashednewPassword = bcrypt.hashSync(newPassword, 10);
     
+    
 
+    if (!mongoose.isValidObjectId(userId)) return res.json({ error: 'invalid user' });
     User.findById(userId).then(userInfo => {
         if (!userInfo) return res.json({ error: 'user not found' });
         if (!bcrypt.compare(hashedOldPassword, userInfo.password)) return res.json({ error: 'mauvais mots de passe' });
@@ -117,7 +122,7 @@ export function changePassword(req, res){
 
 export function verifyEmail(req, res) {
     const { userId, OTP } = req.body;
-    if (!isValidObjectId(userId)) return res.json({ error: 'invalid user' });
+    if (!mongoose.isValidObjectId(userId)) return res.json({ error: 'invalid user' });
     User.findById(userId).then(userInfo => {
         if (!userInfo) return res.json({ error: 'user not found' });
         if (userInfo.isVerified) return res.json({ error: 'user is already verified' });
@@ -127,9 +132,8 @@ export function verifyEmail(req, res) {
             if(!isMatched) return res.json({ error: 'Please submit a valid OTP'})
             userInfo.isVerified = true;
             userInfo.save();
-            
+            EmailVerificationToken.findByIdAndDelete(token._id)
         })
-        EmailVerificationToken.findByIdAndDelete(token._id)
         let transport = nodemailer.createTransport({
             host: "smtp.mailtrap.io",
             port: 2525,
