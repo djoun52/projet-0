@@ -2,6 +2,7 @@ import React, { useEffect } from 'react'
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom'
 import Form from '../../Components/Form/FormLogin/FormLogin'
+import BtnForgetPassword from '../../Components/BtnForgetPassword/BtnForgetPassword';
 
 
 
@@ -23,6 +24,7 @@ export default function Login() {
         <>
             <h1 className="home-title">Connection</h1>
             <Form/>
+            <BtnForgetPassword/>
         </>
     )
 }

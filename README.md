@@ -18,7 +18,7 @@ The project 0 is a github repository who allows me to begin annay MERN (Mongodb,
     double input check for password : done
     role propriaty for user : done
     pseudo propriaty for user : done
-    email verificator : to begin
+    email verificator : done
     verify if the information from the database who is a string is interpreted : checked 
     make more specify error message : to begin
     Profil page : in progress 

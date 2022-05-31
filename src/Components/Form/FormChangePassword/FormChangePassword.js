@@ -14,7 +14,6 @@ export default function FormChangePassword() {
         checkPass : ''
     })
     const [errorForm, setErrorForm] = useState(false)
-    // const dispatch = useDispatch();
     const { id } = useSelector(state => ({
         ...state.userReducer,
     }))
@@ -29,7 +28,7 @@ export default function FormChangePassword() {
             newPassword: input.newpass,
             userId: id
         }
-        console.log(info.userId)
+        
 
         if (input.newpass === input.checkPass) {
             axios.post('http://localhost:4000/changepass', info, { withCredentials: true })
