@@ -38,7 +38,7 @@ export default function FormForgetPassword() {
                     className='inp-email'
                     value={email}
                     onInput={changeInput}
-                    placeholder="Entrez votre identifiant" />
+                    placeholder="Entrez votre email" />
                 <button
                     className={theme ? "btn-dark" : "btn-light"}
                     type="submit"

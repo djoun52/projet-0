@@ -9,11 +9,11 @@ import generateOTP, { generateMailTransporter } from "../utils/mail.js";
 import { sendError } from '../utils/helper.js'
 import crypto from 'crypto'
 
-const secret = "secret123";
+
 
 export default function getUser(req, res) {
     try {
-        const payload = jwt.verify(req.cookies.token, secret);
+        const payload = jwt.verify(req.cookies.token, process.env.JWT_SECRET);
         User.findById(payload.id)
             .then(userInfo => {
                 res.json({ statue: 'user', id: userInfo._id, email: userInfo.email, pseudo: userInfo.pseudo, roles: userInfo.roles });
@@ -30,8 +30,8 @@ export function register(req, res) {
     const hashedPassword = bcrypt.hashSync(password, 10);
     const OTP = generateOTP()
     const HashedOTP = bcrypt.hashSync(OTP, 10);
-
     User.findOne({ email }).then(data => {
+
         if (data != null) return sendError(res, 'email already exists');
         const user = new User({ email: email, pseudo: pseudo, password: hashedPassword, roles: ["commonUser"] });
         user.save().then(userInfo => {
@@ -49,12 +49,12 @@ export function register(req, res) {
                     <a href="http://localhost:3000/verif-email/${userInfo._id}">lien</a>
                     `
             })
-            jwt.sign({ id: userInfo._id, email: userInfo.email }, secret, (err, token) => {
+            jwt.sign({ id: userInfo._id, email: userInfo.email }, process.env.JWT_SECRET , (err, token) => {
                 if (err) {
                     console.log(err);
                     res.status(500);
                 } else {
-                    res.cookie('token', token).json({ id: userInfo._id, email: userInfo.email, pseudo: userInfo.pseudo, roles: userInfo.roles });
+                    res.cookie('token', token, { maxAge: 1000 * 60 * 60 * 24 * 2 }).json({ id: userInfo._id, email: userInfo.email, pseudo: userInfo.pseudo, roles: userInfo.roles });
                 }
             })
         })
@@ -70,12 +70,12 @@ export function login(req, res) {
             if (!userInfo) return sendError(res, 'user not found');
             const passVerif = bcrypt.compareSync(password, userInfo.password);
             if (!passVerif) return sendError(res, "wrong password");
-            jwt.sign({ id: userInfo._id, email }, secret, (err, token) => {
+            jwt.sign({ id: userInfo._id, email }, process.env.JWT_SECRET ,{ expiresIn: "1d" }, (err, token) => {
                 if (err) {
                     console.log(err);
                     res.status(500);
                 } else {
-                    res.status(201).cookie('token', token).json({ id: userInfo._id, email: userInfo.email, pseudo: userInfo.pseudo, roles: userInfo.roles });
+                    res.cookie('token', token, { maxAge: 1000 * 60 * 60 * 24 * 2 }).json({ id: userInfo._id, email: userInfo.email, pseudo: userInfo.pseudo, roles: userInfo.roles });
                 }
             });
         })
@@ -90,8 +90,6 @@ export function changePassword(req, res) {
     const { oldPassword, newPassword, userId } = req.body;
     const hashedOldPassword = bcrypt.hashSync(oldPassword, 10);
     const hashednewPassword = bcrypt.hashSync(newPassword, 10);
-
-
 
     if (!mongoose.isValidObjectId(userId)) return sendError(res, 'invalid user');
     User.findById(userId).then(userInfo => {
@@ -116,14 +114,7 @@ export function verifyEmail(req, res) {
             userInfo.save();
             EmailVerificationToken.findByIdAndDelete(token._id)
         })
-        let transport = nodemailer.createTransport({
-            host: "smtp.mailtrap.io",
-            port: 2525,
-            auth: {
-                user: "e289a8f1d95375",
-                pass: "18c65de80695da"
-            }
-        });
+        let transport = generateMailTransporter();
         transport.sendMail({
             from: 'verification@projet0.com',
             to: userInfo.email,
@@ -166,7 +157,6 @@ export function resendEmailVerifToken(req, res) {
 
 export function forgetPassword(req, res) {
     const { email } = req.body;
-    console.log(email)
     if (!email) return sendError(res, 'email is missing')
     User.findOne({ email }).then(userInfo => {
         if (!userInfo) return sendError(res, 'user not found', 404);

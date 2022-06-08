@@ -6,7 +6,7 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom'
 import * as FaIcons from "react-icons/fa";
 import * as AiIcons from "react-icons/ai";
-import BtnLogout from '../../BtnLogout/BtnLogout';
+import BtnLogout from '../../Btn/BtnLogout/BtnLogout';
 import { SidebarData } from "./SidebarData"
 import { IconContext } from 'react-icons';
 

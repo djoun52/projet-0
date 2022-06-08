@@ -12,7 +12,7 @@ import ThemeContextProvider from './Context/ThemeContext'
 import Error404 from "./Components/Error404/Error404"
 import axios from 'axios';
 import { useSelector, useDispatch } from 'react-redux';
-import BtnToggle from './Components/BtnToggle/BtnToggle'
+import BtnToggle from './Components/Btn/BtnToggle/BtnToggle'
 
 
 
@@ -51,6 +51,7 @@ function App() {
             <Route path="/register" element={<Register />} />
             <Route path="/verif-email/:userId" element={<VerifEmail />} />
             <Route path="/form-forget-password" element={<FormForgetPass />} />
+            <Route path="/reset-pasword*" element={<FormForgetPass />} />
             <Route path="*" element={<Error404 />} />
           </Routes>
           <div>

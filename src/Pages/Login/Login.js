@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom'
 import Form from '../../Components/Form/FormLogin/FormLogin'
-import BtnForgetPassword from '../../Components/BtnForgetPassword/BtnForgetPassword';
+import BtnForgetPassword from '../../Components/Btn/BtnForgetPassword/BtnForgetPassword';
 
 
 
