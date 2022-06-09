@@ -1,13 +1,11 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import './Navbar.css'
 import { Link } from 'react-router-dom'
-import { useSelector, useDispatch } from 'react-redux';
-import axios from 'axios';
-import { useNavigate } from 'react-router-dom'
+import { useSelector } from 'react-redux';
 import * as FaIcons from "react-icons/fa";
 import * as AiIcons from "react-icons/ai";
 import BtnLogout from '../../Btn/BtnLogout/BtnLogout';
-import { SidebarData } from "./SidebarData"
+import { SidebarData, SidebarDataUSer } from "./SidebarData"
 import { IconContext } from 'react-icons';
 
 export default function Navbar() {
@@ -36,32 +34,30 @@ export default function Navbar() {
                                 <AiIcons.AiOutlineClose />
                             </Link>
                         </li>
-                        {SidebarData.map((item, index) => {
-                            return (
-                                <li key={index} className={item.cName}>
-                                    <Link to={item.path}>
-                                        {item.icon}
-                                        <span>{item.title}</span>
-                                    </Link>
-                                </li>
-                            );
-                        })}
                         {!email && (
-                            <>
-                                <li className="nav-text">
-
-                                    <Link to='/login'><AiIcons.AiOutlineLogin />Login</Link>
-                                </li>
-                                <li className="nav-text">
-                                    <Link to='/register'><AiIcons.AiFillEdit />Register</Link>
-                                </li>
-                            </>
+                            SidebarData.map((item, index) => {
+                                return (
+                                    <li key={index} className={item.cName}>
+                                        <Link to={item.path}>
+                                            {item.icon}
+                                            <span>{item.title}</span>
+                                        </Link>
+                                    </li>
+                                );
+                            })
                         )}
                         {email.length !== 0 && (
                             <>
-                                <li className="nav-text">
-                                    <Link to='profil'><AiIcons.AiOutlineProfile />Profile</Link>
-                                </li>
+                                {SidebarDataUSer.map((item, index) => {
+                                    return (
+                                        <li key={index} className={item.cName}>
+                                            <Link to={item.path}>
+                                                {item.icon}
+                                                <span>{item.title}</span>
+                                            </Link>
+                                        </li>
+                                    );
+                                })}
                                 <li className="nav-text">
                                     <BtnLogout />
                                 </li>
