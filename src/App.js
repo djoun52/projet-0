@@ -54,9 +54,9 @@ function App() {
             <Route path="/reset-pasword*" element={<FormForgetPass />} />
             <Route path="*" element={<Error404 />} />
           </Routes>
-          <div>
-            {email && (<div> Logged in as {pseudo}</div>)}
-            {!email && (<div> Not logged in </div>)}
+          <div className="mt-2">
+            {email && (<div> Log as {pseudo}</div>)}
+            {!email && (<div> Not log </div>)}
           </div>
         </div>
         <footer>

@@ -1,6 +1,6 @@
-@tailwind base;
+/* @tailwind base;
 @tailwind components;
-@tailwind utilities;
+@tailwind utilities; */
 
 
 body {
@@ -19,6 +19,37 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+/* @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100&display=swap');
 
+
+* {
+  font-family: 'Roboto'
+} */
+
+.subnav{
+  text-align: center;
+  margin-top: 100px
+}
+
+.dark-body{
+  background-color: #222;
+  color: #f1f1f1;
+  
+}
+
+button{
+    transition: border 0.4s ease-in-out,
+}
+
+iframe{
+  border-width: 0;
+}
+
+footer{
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  background-color: #222;
+}
 
 

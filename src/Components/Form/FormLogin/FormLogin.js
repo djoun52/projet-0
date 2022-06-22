@@ -65,7 +65,7 @@ export default function FormLogin() {
                     type="email"
                     name="email"
                     id="email"
-                    className='inp-email'
+                    className='inp-email '
                     value={log.email}
                     onInput={changeInput}
                     placeholder="Entrez votre identifiant" />
