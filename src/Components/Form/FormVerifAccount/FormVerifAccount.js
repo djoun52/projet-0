@@ -56,6 +56,14 @@ export default function FormVerifAccount() {
     let valueInputOut
     let newArrawState = [...otpInp];
     // console.log(e.target)
+    navigator.clipboard.readText().then(data => {
+
+      if (valueInputin === data) {
+        copyOtp()
+        return true
+      }
+    })
+
     for (let index = 0; index < otpInp.length; index++) {
       if (key === index) {
         if (valueInputin.length === 1) {
@@ -69,12 +77,6 @@ export default function FormVerifAccount() {
           if (!valueInputOut) {
             valueInputOut = valueInputin[0]
           }
-        } else if (valueInputin.length > 2) {
-          setErrorForm({
-            state: true,
-            message: 'don\'t copy '
-          })
-          return false
         }
 
         newArrawState[index] = valueInputOut;
@@ -83,13 +85,26 @@ export default function FormVerifAccount() {
 
     setOtpInp(newArrawState);
     // console.log(otpInp)
-    if (key < 5 ){
+    if (key < 5) {
       setaAtiveOtpIndex(key + 1)
-    }else{
+    } else {
       setaAtiveOtpIndex(0)
     }
 
 
+
+  }
+
+  async function copyOtp() {
+    let newOtp = new Array(opt_lenght).fill("");
+    let copyText = await navigator.clipboard.readText();
+
+    if (copyText.length === 6) {
+      for (let index = 0; index < otpInp.length; index++) {
+        newOtp[index] = copyText[index];
+      }
+      setOtpInp(newOtp)
+    }
 
   }
 
@@ -120,6 +135,13 @@ export default function FormVerifAccount() {
           className={theme ? "btn-dark center" : "btn-light center"}
           type="submit">Valider</button>
       </form>
+      <button
+        className={theme ? "btn-dark center mt-1" : "btn-light center mt-1"}
+        onClick={copyOtp}
+      >
+        Copier le code
+      </button>
+
       {errorForm.state && (
         <>
           <h2>Error formulaire</h2>
