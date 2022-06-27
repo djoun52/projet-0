@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react'
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom'
+import axios from 'axios';
 import Form from '../../Components/Form/FormChangePassword/FormChangePassword'
 
 
@@ -9,16 +10,19 @@ import Form from '../../Components/Form/FormChangePassword/FormChangePassword'
 
 export default function Profil() {
 
-    const {statue, pseudo, email} = useSelector(state => ({
+    const {pseudo, email} = useSelector(state => ({
         ...state.userReducer,
     }))
     
     const navigate = useNavigate()
     useEffect(() => {
-        if (!statue){
-            navigate("/*")
-        }
-    }, [])
+        axios.get('http://localhost:4000/user', { withCredentials: true })
+            .then(response => {
+                if (response.data.statue !== 'user') {
+                navigate("/*")
+            }})
+
+    } , [])
 
 
 

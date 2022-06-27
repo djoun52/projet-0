@@ -32,6 +32,7 @@ function App() {
             type: "ADDUSER",
             payload: response.data,
           })
+          console.log('verif')
         }
       });
   }, [])

@@ -4,7 +4,7 @@ import { ThemeContext } from '../../../Context/ThemeContext';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom'
 import { useSelector } from 'react-redux';
-
+import Popup from 'react-popup';
 
 export default function FormChangePassword() {
 
@@ -14,6 +14,7 @@ export default function FormChangePassword() {
         checkPass : ''
     })
     const [errorForm, setErrorForm] = useState(false)
+    const [formDone, setFormDone] = useState(false)
     const { id } = useSelector(state => ({
         ...state.userReducer,
     }))
@@ -33,15 +34,14 @@ export default function FormChangePassword() {
         if (input.newpass === input.checkPass) {
             axios.post('http://localhost:4000/changepass', info, { withCredentials: true })
                 .then(response => {
-
-
+                    console.log(response)
                     setInput({
                         oldpass: '',
                         newpass: '',
                         checkPass: ''
                     })
+                    setFormDone(true)
                     setErrorForm(false)
-                    navigate("/")
                 })
                 .catch(() => {
                     setErrorForm(true)
@@ -70,7 +70,9 @@ export default function FormChangePassword() {
 
     return (
         <>
-            <form className="container-form" onSubmit={handleForm}>
+            {!formDone && (
+
+                <form className="container-form" onSubmit={handleForm}>
 
                 <label htmlFor="password">votre ancien mot de passe</label>
                 <input
@@ -105,9 +107,13 @@ export default function FormChangePassword() {
                     className={theme ? "btn-dark" : "btn-light"}
                     type="submit">changer</button>
             </form>
+            )}
+            {formDone && (
+                <h2>Votre mot de passe a bien été modifier</h2>
+            )}
             {errorForm && (
                 <h2>Error formulaire</h2>
-            )}
+                )}
         </>
     )
 }

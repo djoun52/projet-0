@@ -97,6 +97,7 @@ export function changePassword(req, res) {
         if (!bcrypt.compare(hashedOldPassword, userInfo.password)) return sendError(res, 'mauvais mots de passe');
         userInfo.password = hashednewPassword;
         userInfo.save();
+        res.json({mess: "pass change"});
     })
 }
 
