@@ -5,6 +5,7 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom'
 import { useDispatch } from 'react-redux';
 
+
 export default function FormRegister() {
 
     const [log, setLog] = useState({
@@ -42,7 +43,13 @@ export default function FormRegister() {
                         email: '',
                         password: ''
                     })
+                    dispatch({
+                        type: "ADDMESSAGE",
+                        payload: "inscription réussie un mail vous a été envoyé pour vérifié votre compts ",
+                    })
+
                     setErrorRegister({ error: false, message: '' })
+
                     navigate("/")
                 })
                 .catch(() => {

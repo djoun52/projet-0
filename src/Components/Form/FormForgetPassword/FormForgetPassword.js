@@ -3,19 +3,45 @@ import "../Form.css"
 import { ThemeContext } from '../../../Context/ThemeContext';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom'
+import { useDispatch } from 'react-redux';
 
 export default function FormForgetPassword() {
     const [email, setEmail] = useState("")
-    const [errorForm, setErrorForm] = useState(false)
-
+    const [errorForm, setErrorForm] = useState({
+        state: false,
+        message: ''
+    })
+    const dispatch = useDispatch();
     const navigate = useNavigate()
     const { theme } = useContext(ThemeContext)
 
 
     const handleForm = (e) => {
         e.preventDefault();
-        console.log(email)
-        axios.post('http://localhost:4000/forget-password', {email : email}, { withCredentials: true })
+        if (email === ""){
+            setErrorForm({
+                state: true,
+                message: 'EMAIL MANQUANT'
+            })
+            return false;
+        }
+        axios.post('http://localhost:4000/forget-password', { email: email }, { withCredentials: true })
+        .then(response => {
+            console.log(response)
+            dispatch({
+                type: "ADDMESSAGE",
+                payload: "Un code vous a été envoyé par mail pour changé votre mots de passe ",
+            })
+            navigate("/")
+        })
+        .catch(err => {
+            console.log(err.data)
+            setErrorForm({
+                state: true,
+                message: 'VOTRE EMAIL N\'A PAS ETE TROUVE'
+            })
+        });
+
     }
 
 
@@ -45,6 +71,12 @@ export default function FormForgetPassword() {
                 >confirmer</button>
             </form>
 
+            {errorForm.state && (
+                <>
+                    <h2>Error formulaire</h2>
+                    <p>{errorForm.message}</p>
+                </>
+            )}
         </>
     )
 }

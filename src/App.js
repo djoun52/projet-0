@@ -8,6 +8,7 @@ import Login from './Pages/Login/Login';
 import VerifEmail from './Pages/VerifEmail/VerifEmail';
 import Register from './Pages/Register/Register';
 import FormForgetPass from './Pages/FormForgetPass/FormForgetPass';
+import FormForgetPassOtp from './Pages/FormForgetPassOtp/FormForgetPassOtp';
 import ThemeContextProvider from './Context/ThemeContext'
 import Error404 from "./Components/Error404/Error404"
 import axios from 'axios';
@@ -52,7 +53,7 @@ function App() {
             <Route path="/register" element={<Register />} />
             <Route path="/verif-email/:userId" element={<VerifEmail />} />
             <Route path="/form-forget-password" element={<FormForgetPass />} />
-            <Route path="/reset-pasword*" element={<FormForgetPass />} />
+            <Route path="/reset-pasword*" element={<FormForgetPassOtp />} />
             <Route path="*" element={<Error404 />} />
           </Routes>
           <div className="mt-2">

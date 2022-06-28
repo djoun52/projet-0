@@ -1,7 +1,6 @@
 import User from "../models/user.js";
 import EmailVerificationToken from "../models/emailVerificationToken.js";
 import passwordResetToken from "../models/passwordResetToken.js";
-import nodemailer from "nodemailer";
 import bcrypt from "bcrypt";
 import jwt from 'jsonwebtoken';
 import mongoose from "mongoose";
@@ -158,7 +157,6 @@ export function resendEmailVerifToken(req, res) {
 
 export function forgetPassword(req, res) {
     const { email } = req.body;
-    if (!email) return sendError(res, 'email is missing')
     User.findOne({ email }).then(userInfo => {
         if (!userInfo) return sendError(res, 'user not found', 404);
         passwordResetToken.findOne({ owner: userInfo._id }).then(token => {
@@ -176,6 +174,7 @@ export function forgetPassword(req, res) {
                     subject: 'Reset Password Link',
                     html: `
                     <p> Click here to reset your password</p>
+                    <p>${buffer}</p>
                     <a href=${resetPasswordUrl}>lien</a>
                     `
                 })

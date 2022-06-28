@@ -3,7 +3,7 @@ import "../Form.css";
 import { ThemeContext } from '../../../Context/ThemeContext';
 import axios from 'axios';
 import { useNavigate, useParams } from 'react-router-dom'
-// import { useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 
 export default function FormVerifAccount() {
 
@@ -17,6 +17,7 @@ export default function FormVerifAccount() {
   })
   const [activeOtpIndex, setaAtiveOtpIndex] = useState(0)
   const inputRef = useRef()
+  const dispatch = useDispatch();
   const navigate = useNavigate()
   const { theme } = useContext(ThemeContext)
 
@@ -40,6 +41,10 @@ export default function FormVerifAccount() {
     axios.post('http://localhost:4000/verify-email', info, { withCredentials: true })
       .then(response => {
         setErrorForm(false)
+        dispatch({
+          type: "ADDMESSAGE",
+          payload: "Votre compts est vérifié",
+        })
         navigate("/")
       })
       .catch(() => {

@@ -1,8 +1,7 @@
-import React, { useState, useContext } from 'react';
-import "../Form.css"
+import React, { useState, useContext, useEffect, useRef } from 'react'
 import { ThemeContext } from '../../../Context/ThemeContext';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 
 
 export default function FormForgetPassOtp() {
@@ -38,13 +37,16 @@ export default function FormForgetPassOtp() {
 
         axios.post('http://localhost:4000/reset-password', info, { withCredentials: true })
             .then(response => {
-                setErrorForm(false)
-                navigate("/")
+                setErrorForm({
+                    state: false,
+                    message: ''
+                })
+                // navigate("/")
             })
             .catch(() => {
                 setErrorForm({
                     state: true,
-                    message: ''
+                    message: 'LE CODE NE CORESPOND PAS'
                 })
             });
 
@@ -146,8 +148,7 @@ export default function FormForgetPassOtp() {
                     <h2>Error formulaire</h2>
                     <p>{errorForm.message}</p>
                 </>
-            )
-            }
+            )}
         </>
     )
 
