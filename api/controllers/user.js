@@ -7,6 +7,8 @@ import mongoose from "mongoose";
 import generateOTP, { generateMailTransporter } from "../utils/mail.js";
 import { sendError } from '../utils/helper.js'
 import crypto from 'crypto'
+import dotenv from "dotenv"
+import passport from "passport"
 
 
 
@@ -174,7 +176,7 @@ export function forgetPassword(req, res) {
                     subject: 'Reset Password Link',
                     html: `
                     <p> Click here to reset your password</p>
-                    <p>${buffer}</p>
+                    <p>${token}</p>
                     <a href=${resetPasswordUrl}>lien</a>
                     `
                 })

@@ -3,6 +3,7 @@ import { useEffect } from 'react';
 import './Home.css'
 import { useSelector, useDispatch } from 'react-redux';
 
+
 export default function Home() {
 
     const { message, statue } = useSelector(state => ({
@@ -21,11 +22,14 @@ export default function Home() {
 
     return (
         <>
-            <h1 className="home-title">Home</h1>
             {statue && (
-                <h2>{message}</h2>
+                <div className = 'box center'>
+                    <p className='textMes'>{message}</p>
+                </div>
             )}
-
+            <h1 className="home-title">Home</h1>
+            
+            
         </>
     )
 }

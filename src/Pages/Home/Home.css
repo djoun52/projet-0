@@ -3,3 +3,12 @@
     margin: 0 0 40px;
     text-align: center;
 }
+
+
+.box{
+    background-color: rgb(133, 233, 133,0.5);
+    border : 1px solid black;
+    border-radius: 0.4em;
+    width: 50%;
+
+}
