@@ -9,7 +9,7 @@ import { sendError } from '../utils/helper.js'
 import crypto from 'crypto'
 import dotenv from "dotenv"
 import passport from "passport"
-
+import PasswordResetToken from "../models/passwordResetToken.js";
 
 
 export default function getUser(req, res) {
@@ -50,7 +50,7 @@ export function register(req, res) {
                     <a href="http://localhost:3000/verif-email/${userInfo._id}">lien</a>
                     `
             })
-            jwt.sign({ id: userInfo._id, email: userInfo.email }, process.env.JWT_SECRET , (err, token) => {
+            jwt.sign({ id: userInfo._id, email: userInfo.email }, process.env.JWT_SECRET, (err, token) => {
                 if (err) {
                     console.log(err);
                     res.status(500);
@@ -71,7 +71,7 @@ export function login(req, res) {
             if (!userInfo) return sendError(res, 'user not found');
             const passVerif = bcrypt.compareSync(password, userInfo.password);
             if (!passVerif) return sendError(res, "wrong password");
-            jwt.sign({ id: userInfo._id, email }, process.env.JWT_SECRET ,{ expiresIn: "1d" }, (err, token) => {
+            jwt.sign({ id: userInfo._id, email }, process.env.JWT_SECRET, { expiresIn: "1d" }, (err, token) => {
                 if (err) {
                     console.log(err);
                     res.status(500);
@@ -98,7 +98,7 @@ export function changePassword(req, res) {
         if (!bcrypt.compare(hashedOldPassword, userInfo.password)) return sendError(res, 'mauvais mots de passe');
         userInfo.password = hashednewPassword;
         userInfo.save();
-        res.json({mess: "pass change"});
+        res.json({ mess: "pass change" });
     })
 }
 
@@ -186,9 +186,29 @@ export function forgetPassword(req, res) {
     })
 }
 
-export function sendResetPasswordTokenStatus(req, res) {
-    res.json({ valid: true });
-};
+
+export function isValidPassResetToken(req, res) {
+    const { token, userId } = req.body
+    console.log(token)
+
+
+    if (!token.trim() || !mongoose.isValidObjectId(userId))
+        return sendError(res, "Invalid request!");
+
+    PasswordResetToken.findOne({ owner: userId }).then(resetToken => {
+        console.log(resetToken.token !== token)
+        if (!resetToken) return sendError(res, "Unauthorized access, invalid request!");
+
+        if (resetToken.token !== token ) res.json({ valid: false});
+        else res.json({ valid: true})
+
+    })
+
+
+
+}
+
+
 
 export function resetPassword(req, res) {
     const { newPassword, userId } = req.body;

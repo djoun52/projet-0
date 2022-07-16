@@ -4,7 +4,6 @@ import { ThemeContext } from '../../../Context/ThemeContext';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom'
 import { useSelector } from 'react-redux';
-import Popup from 'react-popup';
 
 export default function FormChangePassword() {
 
