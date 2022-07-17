@@ -23,6 +23,7 @@ The project 0 is a github repository who allows me to begin annay MERN (Mongodb,
     make more specify error message : to begin
     Profil page : done
     Form for changing the password : done
+    forget password functionality : done
 
 
 # Getting Started with Create React App

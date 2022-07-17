@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect, useRef } from 'react'
+import React, { useState, useContext, useEffect } from 'react'
 import { ThemeContext } from '../../../Context/ThemeContext';
 import axios from 'axios';
 import { useNavigate, useSearchParams } from "react-router-dom";
@@ -9,14 +9,14 @@ export default function FormForgetPassOtp() {
 
     const [input, setInput] = useState({
         newpass: '',
-        checkPass : ''
+        checkPass: ''
     })
 
     const [errorForm, setErrorForm] = useState({
-        state: false,
-        message: ''
+        stat: false,
+        mess: ""
     })
-    const [activeOtpIndex, setaAtiveOtpIndex] = useState(0)
+
     const dispatch = useDispatch();
     const navigate = useNavigate()
     const { theme } = useContext(ThemeContext)
@@ -31,20 +31,21 @@ export default function FormForgetPassOtp() {
 
     const isValidToken = async () => {
         console.log(token)
-        axios.post('http://localhost:4000/verify-pass-reset-token',{
+        axios.post('http://localhost:4000/verify-pass-reset-token', {
             token,
-            userId} 
-            ,{ withCredentials: true })
-        .then(response => {
-            console.log(response.data.valid)     
-            if (!response.data.valid) {
-                dispatch({
-                    type: "ADDMESSAGE",
-                    payload: "la procédure pour changé le mots de passe a éxpiré ",
-                })
-                navigate("/")
-            }
-        })
+            userId
+        }
+            , { withCredentials: true })
+            .then(response => {
+                console.log(response.data.valid)
+                if (!response.data.valid) {
+                    dispatch({
+                        type: "ADDMESSAGE",
+                        payload: response.data.mess,
+                    })
+                    navigate("/")
+                }
+            })
     };
 
 
@@ -52,11 +53,51 @@ export default function FormForgetPassOtp() {
         e.preventDefault();
         let info = {
             newPassword: input.newpass,
-            userId: userId
+            userId: userId,
+            token: token
+        }
+        
+        if (input.newpass.length < 8 || input.newpass.length > 20) {
+            setErrorForm({
+                stat: true,
+                mess: "le mots de passe doit contenire entre 8 et 20 caractere "
+            })
+            return false
         }
 
-
+        if (input.newpass === input.checkPass) {
+            axios.post('http://localhost:4000/reset-password', info, { withCredentials: true })
+                .then(response => {
+                    console.log(response)
+                    setInput({
+                        newpass: '',
+                        checkPass: ''
+                    })
+                    setErrorForm({
+                        stat: false,
+                        mess: ""
+                    })
+                    dispatch({
+                        type: "ADDMESSAGE",
+                        payload: response.data.message,
+                    })
+                    navigate("/")
+                })
+                .catch(() => {
+                    setErrorForm({
+                        stat: true,
+                        mess: "error formulaire "
+                    })
+                });
+        } else {
+            setErrorForm({
+                stat: true,
+                mess: "les mots de passe ne coresponde pas"
+            })
+        }
     }
+
+
 
     const changeInput = (e) => {
 
@@ -97,6 +138,9 @@ export default function FormForgetPassOtp() {
                     className={theme ? "btn-dark" : "btn-light"}
                     type="submit">changer</button>
             </form>
+            {errorForm.stat && (
+                <h2>{errorForm.mess}</h2>
+            )}
         </>
     )
 

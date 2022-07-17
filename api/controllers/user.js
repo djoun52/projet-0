@@ -189,20 +189,20 @@ export function forgetPassword(req, res) {
 
 export function isValidPassResetToken(req, res) {
     const { token, userId } = req.body
-    console.log(token)
 
 
     if (!token.trim() || !mongoose.isValidObjectId(userId))
-        return sendError(res, "Invalid request!");
+        res.json({ valid: false, mess:'probleme avec l\'id'  })
 
-    PasswordResetToken.findOne({ owner: userId }).then(resetToken => {
-        console.log(resetToken.token !== token)
-        if (!resetToken) return sendError(res, "Unauthorized access, invalid request!");
+    
+        PasswordResetToken.findOne({ owner: userId }).then(resetToken => {
+            
+            if (resetToken.token !== token) res.json({ valid: false, mess:'la procédure pour changé le mots de passe a éxpiré'});
+            else res.json({ valid: true })
+        }).catch(() => {
+            res.json({ valid: false, mess: 'la procédure pour changé le mots de passe a éxpiré'})
+        })
 
-        if (resetToken.token !== token ) res.json({ valid: false});
-        else res.json({ valid: true})
-
-    })
 
 
 
@@ -211,11 +211,16 @@ export function isValidPassResetToken(req, res) {
 
 
 export function resetPassword(req, res) {
-    const { newPassword, userId } = req.body;
+    const { newPassword, userId, token  } = req.body;
+    const hashednewPassword = bcrypt.hashSync(newPassword, 10);
     User.findById(userId).then((user) => {
-        user.password = newPassword;
+        user.password = hashednewPassword;
         user.save();
-        PasswordResetToken.findByIdAndDelete(req.resetToken._id);
+
+        PasswordResetToken.findOne({token: token}).then((tokendata) => {
+            console.log(tokendata)
+            tokendata.delete()
+        })
         const transport = generateMailTransporter();
         transport.sendMail({
             from: "security@reviewapp.com",
