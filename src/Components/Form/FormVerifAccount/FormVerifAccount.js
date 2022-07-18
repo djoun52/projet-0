@@ -2,7 +2,7 @@ import React, { useState, useContext, useEffect, useRef } from 'react'
 import "../Form.css";
 import { ThemeContext } from '../../../Context/ThemeContext';
 import axios from 'axios';
-import { useNavigate, useParams } from 'react-router-dom'
+import { useNavigate, useParams,useSearchParams } from 'react-router-dom'
 import { useDispatch } from 'react-redux';
 
 export default function FormVerifAccount() {
@@ -20,8 +20,10 @@ export default function FormVerifAccount() {
   const dispatch = useDispatch();
   const navigate = useNavigate()
   const { theme } = useContext(ThemeContext)
-
+  const [searchParams] = useSearchParams();
   const params = useParams()
+  const userId = searchParams.get("id");
+
 
   useEffect(() => {
     inputRef.current?.focus()
@@ -34,7 +36,7 @@ export default function FormVerifAccount() {
     e.preventDefault();
 
     let info = {
-      userId: params.userId,
+      userId: userId,
       OTP: otpInp.join('')
     }
 

@@ -47,7 +47,7 @@ export function register(req, res) {
                     <p> your verification token </p>
                     <h1> ${OTP} </h1>
                     <p> use this link to verify your email address</p>
-                    <a href="http://localhost:3000/verif-email/${userInfo._id}">lien</a>
+                    <a href="http://localhost:3000/verif-email?id=${userInfo._id}">lien</a>
                     `
             })
             jwt.sign({ id: userInfo._id, email: userInfo.email }, process.env.JWT_SECRET, (err, token) => {
@@ -140,7 +140,7 @@ export function resendEmailVerifToken(req, res) {
         });
         const emailVerificationToken = new EmailVerificationToken({ owner: userInfo._id, token: HashedOTP })
         emailVerificationToken.save();
-        const verificationTokenUrl = `http://localhost:3000/verif-email/${userInfo._id}`
+        const verificationTokenUrl = `http://localhost:3000/verif-email?id=${userInfo._id}`
         let transport = generateMailTransporter()
         transport.sendMail({
             from: 'verification@projet0.com',

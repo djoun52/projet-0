@@ -51,7 +51,7 @@ function App() {
             <Route path="/profil" element={<Profil />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
-            <Route path="/verif-email/:userId" element={<VerifEmail />} />
+            <Route path="/verif-email/*" element={<VerifEmail />} />
             <Route path="/form-forget-password" element={<FormForgetPass />} />
             <Route path="/reset-pasword/*" element={<FormForgetPassOtp />} />
             <Route path="*" element={<Error404 />} />

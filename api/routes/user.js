@@ -1,7 +1,5 @@
 import express from "express";
 import getUser, { register, login, logout, changePassword, verifyEmail, resendEmailVerifToken, forgetPassword, resetPassword,isValidPassResetToken }  from "../controllers/user.js";
-// import isValidPassResetToken from "../middlewares/user.js";
-// import validate from "../middlewares/validator.js"
 
 const router = express.Router()
 
