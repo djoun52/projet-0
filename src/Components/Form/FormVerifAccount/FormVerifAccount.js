@@ -2,7 +2,7 @@ import React, { useState, useContext, useEffect, useRef } from 'react'
 import "../Form.css";
 import { ThemeContext } from '../../../Context/ThemeContext';
 import axios from 'axios';
-import { useNavigate, useParams,useSearchParams } from 'react-router-dom'
+import { useNavigate, useParams, useSearchParams } from 'react-router-dom'
 import { useDispatch } from 'react-redux';
 
 export default function FormVerifAccount() {
@@ -21,7 +21,6 @@ export default function FormVerifAccount() {
   const navigate = useNavigate()
   const { theme } = useContext(ThemeContext)
   const [searchParams] = useSearchParams();
-  const params = useParams()
   const userId = searchParams.get("id");
 
 
@@ -62,7 +61,6 @@ export default function FormVerifAccount() {
     let valueInputin = e.target.value
     let valueInputOut
     let newArrawState = [...otpInp];
-    // console.log(e.target)
     navigator.clipboard.readText().then(data => {
 
       if (valueInputin === data) {
@@ -91,7 +89,6 @@ export default function FormVerifAccount() {
     }
 
     setOtpInp(newArrawState);
-    // console.log(otpInp)
     if (key < 5) {
       setaAtiveOtpIndex(key + 1)
     } else {

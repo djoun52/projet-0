@@ -4,6 +4,10 @@ import axios from 'axios';
 
 export default function checkUserVerify() {
 
+    useEffect(() => {
+        isUserVerif();
+    }, []);
+
 
     return (
         <>
