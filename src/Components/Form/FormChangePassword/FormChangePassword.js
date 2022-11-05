@@ -31,7 +31,7 @@ export default function FormChangePassword() {
             newPassword: input.newpass,
             userId: id
         }
-      
+    
         if (input.oldpass.length < 8 || input.oldpass.length > 20) {
             setErrorForm({
                 stat: true,
